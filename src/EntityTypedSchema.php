@@ -27,16 +27,8 @@ class EntityTypedSchema {
 
     $objects = [];
 
-    foreach ($field_definitions as $field_definition) {
-      $name = $field_definition->getName();
-      $objects[$name] = [];
-
-      $field_storage_definition = $field_definition->getFieldStorageDefinition();
-      $property_definitions = $field_storage_definition->getPropertyDefinitions();
-
-      foreach ($property_definitions as $property_name => $property_definition) {
-        $objects[$name][$property_name] = $property_definition->toArray();
-      }
+    foreach ($field_definitions as $name => $field_definition) {
+      $objects[$name] = \Drupal::typedDataManager()->create($field_definition, NULL, $name);
     }
 
     return new TypedSchema($objects);

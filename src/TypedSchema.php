@@ -2,10 +2,12 @@
 
 namespace Drupal\typed_form;
 
+use Symfony\Component\Validator\ConstraintViolationList;
+
 class TypedSchema {
 
   /**
-   * @var \Drupal\Core\TypedData\TypedDataInterface[]
+   * @var array|\Drupal\Core\TypedData\TypedDataInterface[]
    */
   private $objects;
 
@@ -18,6 +20,19 @@ class TypedSchema {
     $this->objects = $objects;
   }
 
+  public function validate(array $data) {
+    $constraints = new ConstraintViolationList();
+
+    foreach ($data as $key => $value) {
+      $object = $this->objects[$key];
+      $object->setValue($value, FALSE);
+
+      $constraints->addAll($object->validate());
+    }
+
+    return $constraints;
+  }
+
   public function toArray() {
     $values = [];
 
@@ -27,6 +42,5 @@ class TypedSchema {
 
     return $values;
   }
-
 
 }

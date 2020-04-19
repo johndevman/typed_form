@@ -1,0 +1,6 @@
+typed_form.entity_form:
+  path: '/typed-form/entity-form'
+  defaults:
+    _controller: '\Drupal\typed_form\Controller\EntityFormController::handle'
+  requirements:
+    _access: 'TRUE'

@@ -2,6 +2,7 @@
 
 namespace Drupal\typed_form\Controller;
 
+use Drupal\Component\Serialization\Json;
 use Drupal\node\Entity\Node;
 use Drupal\typed_form\EntityForm;
 use Drupal\typed_form\EntityTypedSchema;
@@ -13,7 +14,29 @@ class EntityFormController {
 
     $form = new EntityForm($node, new EntityTypedSchema(\Drupal::service('entity_field.manager')));
 
-    $constraints = $form->schema()->validate($node->toArray());
+    $schema = $form->schema();
+
+    $ui_schema = [
+      'title' => [
+        'type' => 'ui-string',
+        'required' => TRUE,
+      ],
+    ];
+
+    $build = [
+      '#theme' => 'typed_form',
+      '#schema' => Json::encode($schema->toArray()),
+      '#ui_schema' => Json::encode($ui_schema),
+      '#attached' => [
+        'library' => ['typed_form/core'],
+      ],
+    ];
+
+    if (TRUE) {
+
+    }
+
+    return $build;
   }
 
 }

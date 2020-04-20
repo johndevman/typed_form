@@ -1,0 +1,3 @@
+core:
+  js:
+    js/dist/typed-form.js: {}

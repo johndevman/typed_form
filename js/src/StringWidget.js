@@ -1,9 +1,8 @@
 'use strict';
 
 import React from 'react';
-import StringWidget from './StringWidget';
 
-class TypedForm extends React.Component {
+class StringWidget extends React.Component {
 
   constructor(props) {
     super(props);
@@ -11,17 +10,14 @@ class TypedForm extends React.Component {
     };
   }
 
-  componentDidMount() {
-  }
-
   render() {
     return (
       <div>
-        <StringWidget />
+        <input type="text" />
       </div>
     );
   }
 
 }
 
-export default TypedForm;
+export default StringWidget;

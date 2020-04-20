@@ -18,8 +18,7 @@ class EntityFormController {
 
     $ui_schema = [
       'title' => [
-        'type' => 'ui-string',
-        'required' => TRUE,
+        'type' => 'string',
       ],
     ];
 

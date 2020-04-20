@@ -6,38 +6,44 @@ use Drupal\Component\Serialization\Json;
 use Drupal\node\Entity\Node;
 use Drupal\typed_form\EntityForm;
 use Drupal\typed_form\EntityTypedSchema;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class EntityFormController {
 
-  public function handle() {
+  public function handle(Request $request) {
     $node = Node::create(['type' => 'page']);
 
     $form = new EntityForm($node, new EntityTypedSchema(\Drupal::service('entity_field.manager')));
 
-    $schema = $form->schema();
+    $form->handleRequest($request);
 
-    $ui_schema = [
-      'title' => [
-        'type' => 'string',
-      ],
-    ];
+    if ($form->isSubmitted()) {
 
-    return [
-      '#type' => 'html_tag',
-      '#tag' => 'div',
-      '#attributes' => [
-        'class' => [
-          'typed-form',
-        ],
-        'data-schema' => Json::encode($schema->toArray()),
-        'data-ui-schema' => Json::encode($ui_schema),
-      ],
-      '#attached' => [
-        'library' => [
-          'typed_form/core',
-        ],
-      ],
-    ];
+      $constraints = $form->validate();
+
+      if (!empty($constraints)) {
+        throw new BadRequestHttpException();
+      }
+
+      $data = $form->getData();
+
+      // Map all data to the entity.
+      foreach ($data as $key => $value) {
+        $node->set($key, $value);
+      }
+
+      // Validate entity.
+      $entity_constraints = $node->validate();
+
+      if (!empty($entity_constraints)) {
+        // @todo
+      }
+
+      $node->save();
+    }
+
+    return $form->toBuild();
   }
 
 }

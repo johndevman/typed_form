@@ -27,5 +27,8 @@
   "repository": "",
   "keywords": [
     "react-component"
-  ]
+  ],
+  "dependencies": {
+    "formik": "^2.1.4"
+  }
 }

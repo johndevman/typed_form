@@ -23,20 +23,22 @@ class EntityFormController {
       ],
     ];
 
-    $build = [
-      '#theme' => 'typed_form',
-      '#schema' => Json::encode($schema->toArray()),
-      '#ui_schema' => Json::encode($ui_schema),
+    return [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => [
+          'typed-form',
+        ],
+        'data-schema' => Json::encode($schema->toArray()),
+        'data-ui-schema' => Json::encode($ui_schema),
+      ],
       '#attached' => [
-        'library' => ['typed_form/core'],
+        'library' => [
+          'typed_form/core',
+        ],
       ],
     ];
-
-    if (TRUE) {
-
-    }
-
-    return $build;
   }
 
 }

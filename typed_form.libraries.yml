@@ -1,4 +1,3 @@
 core:
   js:
-    https://cdn.jsdelivr.net/npm/vue/dist/vue.js: { type: external, minified: true }
-    js/typed-form.js:
+    js/dist/typed-form.js: {}
